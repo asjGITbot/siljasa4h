@@ -1,25 +1,27 @@
-# SILJASA4H — PAW Radar Inmobiliario (frontend)
+# SILJASA4H — PAW Radar Inmobiliario
 
-Este repositorio es **privado** y contiene solo los archivos estáticos de la interfaz en `dist/`. No incluye backend Python, bases de datos ni credenciales.
+Interfaz web del proyecto PAW Radar Inmobiliario. Repositorio **público** con archivos estáticos en `dist/`. **No contiene** el backend Python, credenciales, bases de datos ni documentos privados.
 
 ## Publicación
-El despliegue mediante **GitHub Pages no es compatible con la configuración actual del repositorio privado y su plan**. Por ese motivo se eliminó el workflow fallido. No es necesario volver público el repositorio.
+La interfaz se publica mediante **GitHub Pages** con el workflow [PAW Radar — GitHub Pages](.github/workflows/pages.yml).
 
-**Destino elegido:** Cloudflare Pages, conectado directamente a este repositorio privado. Guía de configuración: [docs/DEPLOY_CLOUDFLARE_PAGES.md](docs/DEPLOY_CLOUDFLARE_PAGES.md).
+**Primera activación requerida en GitHub:** [Settings → Pages](https://github.com/asjGITbot/siljasa4h/settings/pages) → **Build and deployment → Source → GitHub Actions**. El primer despliegue se inicia por un push a `main` o manualmente con `Run workflow` en Actions.
+
+**URL prevista, pendiente de confirmación de despliegue:** https://asjgitbot.github.io/siljasa4h/
+
+La interfaz está separada del backend. Hasta conectar la API privada, solo estará disponible la vista estática; las oportunidades de demo son ficticias y están identificadas como tales.
 
 ## Arquitectura
-- GitHub: repositorio privado, versiones y código de la interfaz.
-- Cloudflare Pages: frontend HTML/CSS/JavaScript servido por HTTPS.
-- PC local: FastAPI y motor de captación.
-- Docker local: Supabase PostgreSQL.
-- Cloudflare Tunnel + Access: futuro acceso remoto autorizado a la API.
-- `dist/config.js`: URL HTTPS pública de la API (pendiente). Nunca agregar contraseñas ni tokens.
+- **GitHub Pages:** frontend público HTML/CSS/JavaScript.
+- **PC Windows:** servidor FastAPI y motor de captación inmobiliaria en localhost.
+- **Supabase Local en Docker:** PostgreSQL y datos privados, nunca expuestos mediante GitHub Pages.
+- **Cloudflare Tunnel + Access:** futura conexión HTTPS autenticada desde frontend hacia FastAPI local; requiere configuración y pruebas independientes.
+- **dist/config.js:** campo `PAW_CONFIG.apiBase` vacío hasta validar el túnel, autenticación, CORS y CSP. Nunca introducir secretos.
 
-## Estado actual
-- Frontend subido a GitHub: sí.
-- Despliegue inicial Cloudflare Pages: **pendiente de autorización/configuración en Cloudflare**.
-- Backend y PostgreSQL: disponibles localmente, pendiente de verificación final de la conexión a PostgreSQL.
-- Búsqueda de REM@JU y remates bancarios: aún pendiente.
-- Modo Demo: datos sintéticos, no oportunidades reales.
+## Pendientes
+- Habilitar GitHub Pages en Settings y verificar despliegue.
+- Verificar FastAPI con `PAW_STORAGE=postgres` y los 40 registros importados.
+- Configurar Cloudflare Tunnel, Access y validación de autenticación del lado servidor.
+- Implementar y validar conectores REM@JU y bancarios.
 
-**Seguridad:** no abrir puertos directos al público, no subir secretos ni conectar `config.js` hasta validar autenticación, CORS y CSP.
+No publicar API Python, Supabase Studio, PostgreSQL, contraseñas o tokens directamente.
