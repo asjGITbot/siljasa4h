@@ -1,11 +1,15 @@
-# SILJASA4H — PAW Radar Inmobiliario
+# SILJASA4H — PAW Radar Inmobiliario (frontend)
 
-Repositorio privado del proyecto PAW Radar Inmobiliario de inversión en Perú.
+Este repositorio publica **solo archivos estáticos** mediante GitHub Pages. No contiene base de datos, credenciales, datos de clientes ni servicios Python.
 
-**Estado del repositorio:** preparado para recibir el código completo. No se considera desplegado ni operativo hasta subir los archivos de la aplicación y verificar el hosting.
+La API privada se ejecutará en la PC mediante FastAPI y Supabase PostgreSQL (Docker). Se accederá mediante Cloudflare Tunnel **protegido con Cloudflare Access**, nunca por exposición directa de puertos.
 
-La aplicación usa frontend HTML/CSS/JS, backend FastAPI y base de datos SQLite. **GitHub Pages solo permite una vista estática; la captación y la base de datos requieren un backend seguro adicional.**
+## Sitio
 
-La versión original no debe exponerse directamente a Internet: el backend está limitado a `localhost`, y la autenticación es solo para uso local.
+En GitHub: Settings → Pages → Build and deployment → GitHub Actions. El workflow publica `dist/`. El sitio de Pages puede ser público incluso si el repositorio es privado.
 
-No subir `.env`, `.venv`, `runtime/`, bases de datos ni respaldos privados.
+En `dist/config.js` configurar `apiBase` únicamente cuando exista endpoint HTTPS con Access funcionando. **Nunca poner contraseñas ni tokens** en `config.js`.
+
+Si falta esa conexión, el sitio muestra interfaz estática sin búsqueda real. La extracción REM@JU/bancos aún está pendiente.
+
+Para evitar problemas de cookies de terceros, lo recomendado es personalizar el dominio de Pages (`radar.tudominio`) y colocar la API en otro subdominio del mismo dominio (`api.tudominio`). Cloudflare Access necesita manejo explícito de CORS/preflight para llamadas desde el navegador.
