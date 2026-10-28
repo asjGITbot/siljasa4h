@@ -1,15 +1,25 @@
 # SILJASA4H — PAW Radar Inmobiliario (frontend)
 
-Este repositorio publica **solo archivos estáticos** mediante GitHub Pages. No contiene base de datos, credenciales, datos de clientes ni servicios Python.
+Este repositorio es **privado** y contiene solo los archivos estáticos de la interfaz en `dist/`. No incluye backend Python, bases de datos ni credenciales.
 
-La API privada se ejecutará en la PC mediante FastAPI y Supabase PostgreSQL (Docker). Se accederá mediante Cloudflare Tunnel **protegido con Cloudflare Access**, nunca por exposición directa de puertos.
+## Publicación
+El despliegue mediante **GitHub Pages no es compatible con la configuración actual del repositorio privado y su plan**. Por ese motivo se eliminó el workflow fallido. No es necesario volver público el repositorio.
 
-## Sitio
+**Destino elegido:** Cloudflare Pages, conectado directamente a este repositorio privado. Guía de configuración: [docs/DEPLOY_CLOUDFLARE_PAGES.md](docs/DEPLOY_CLOUDFLARE_PAGES.md).
 
-En GitHub: Settings → Pages → Build and deployment → GitHub Actions. El workflow publica `dist/`. El sitio de Pages puede ser público incluso si el repositorio es privado.
+## Arquitectura
+- GitHub: repositorio privado, versiones y código de la interfaz.
+- Cloudflare Pages: frontend HTML/CSS/JavaScript servido por HTTPS.
+- PC local: FastAPI y motor de captación.
+- Docker local: Supabase PostgreSQL.
+- Cloudflare Tunnel + Access: futuro acceso remoto autorizado a la API.
+- `dist/config.js`: URL HTTPS pública de la API (pendiente). Nunca agregar contraseñas ni tokens.
 
-En `dist/config.js` configurar `apiBase` únicamente cuando exista endpoint HTTPS con Access funcionando. **Nunca poner contraseñas ni tokens** en `config.js`.
+## Estado actual
+- Frontend subido a GitHub: sí.
+- Despliegue inicial Cloudflare Pages: **pendiente de autorización/configuración en Cloudflare**.
+- Backend y PostgreSQL: disponibles localmente, pendiente de verificación final de la conexión a PostgreSQL.
+- Búsqueda de REM@JU y remates bancarios: aún pendiente.
+- Modo Demo: datos sintéticos, no oportunidades reales.
 
-Si falta esa conexión, el sitio muestra interfaz estática sin búsqueda real. La extracción REM@JU/bancos aún está pendiente.
-
-Para evitar problemas de cookies de terceros, lo recomendado es personalizar el dominio de Pages (`radar.tudominio`) y colocar la API en otro subdominio del mismo dominio (`api.tudominio`). Cloudflare Access necesita manejo explícito de CORS/preflight para llamadas desde el navegador.
+**Seguridad:** no abrir puertos directos al público, no subir secretos ni conectar `config.js` hasta validar autenticación, CORS y CSP.
